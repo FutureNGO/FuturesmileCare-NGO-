@@ -1,0 +1,151 @@
+.service-carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 20px 0 60px 0;
+}
+
+.service-carousel-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.service-carousel-content {
+  display: flex;
+  gap: 20px;
+  padding: 0 100px;
+}
+
+.service-carousel-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 420px;
+}
+
+@media (min-width: 768px) {
+  .service-carousel-slide {
+    flex: 0 0 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .service-carousel-slide {
+    flex: 0 0 33.333%;
+  }
+}
+
+/* Carousel Buttons */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+  background: linear-gradient(135deg, rgba(234, 88, 12, 0.8) 0%, rgba(24, 24, 24, 0.8) 100%);
+  border: none;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.carousel-btn:hover {
+  background: linear-gradient(135deg, rgba(234, 88, 12, 1) 0%, rgb(21, 21, 21) 100%);
+  box-shadow: 0 8px 16px rgba(234, 88, 12, 0.4);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.carousel-prev {
+  left: 20px;
+}
+
+.carousel-next {
+  right: 20px;
+}
+
+@media (max-width: 768px) {
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .carousel-prev {
+    left: 10px;
+  }
+
+  .carousel-next {
+    right: 10px;
+  }
+
+  .service-carousel-content {
+    padding: 0 50px;
+  }
+}
+
+/* Indicators */
+.carousel-indicators {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.indicator-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(234, 88, 12, 0.3);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator-dot.active {
+  width: 30px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(234, 88, 12, 1) 0%, rgb(20, 20, 20) 100%);
+  border-color: rgba(234, 88, 12, 1);
+}
+
+.indicator-dot:hover {
+  border-color: rgba(234, 88, 12, 0.6);
+  transform: scale(1.15);
+}
+
+@media (max-width: 480px) {
+  .service-carousel-slide {
+    flex: 0 0 100%;
+    height: 300px;
+  }
+
+  .carousel-indicators {
+    gap: 6px;
+  }
+
+  .indicator-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .indicator-dot.active {
+    width: 20px;
+  }
+}
