@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import "./FlipCard.css";
 
 interface FlipCardProps {
@@ -8,8 +8,31 @@ interface FlipCardProps {
 }
 
 const FlipCard: React.FC<FlipCardProps> = ({ title, description, icon }) => {
+  const [flipped, setFlipped] = useState(false);
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
+  const isMobile = useRef(false);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    isMobile.current = true;
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const deltaX = Math.abs(e.changedTouches[0].clientX - touchStartX.current);
+    const deltaY = Math.abs(e.changedTouches[0].clientY - touchStartY.current);
+    if (deltaX < 10 && deltaY < 10) {
+      setFlipped(prev => !prev);
+    }
+  };
+
   return (
-    <div className="flip-card">
+    <div
+      className={`flip-card ${isMobile.current ? "is-mobile" : ""} ${flipped ? "touched" : ""}`}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="card">
         <div className="content">
           <div className="back">
@@ -18,9 +41,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ title, description, icon }) => {
             </div>
           </div>
           <div className="front">
-            {icon && (
-              <img src={icon} alt={title} className="front-image" />
-            )}
+            {icon && <img src={icon} alt={title} className="front-image" />}
             <div className="front-overlay"></div>
             <div className="front-content">
               <div className="title-overlay">
@@ -35,4 +56,3 @@ const FlipCard: React.FC<FlipCardProps> = ({ title, description, icon }) => {
 }
 
 export default FlipCard;
-

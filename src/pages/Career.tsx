@@ -61,9 +61,45 @@ const STATS = [
   { value: "100+", label: "Partners" },
 ];
 
+const DEFAULT_JOBS = [
+  {
+    id: 1,
+    title: "Site Supervisor",
+    company: "Future Smile Care",
+    location: "Bihar, India",
+    salary: "₹21,660",
+    type: "Full-time",
+    logo: "👨‍💼",
+    category: "Supervisory",
+    description: "Diploma in Electrical with 2 years of experience. Must be equipped with his own laptop."
+  },
+  {
+    id: 2,
+    title: "Site Technician",
+    company: "Future Smile Care",
+    location: "Bihar, India",
+    salary: "₹17,660",
+    type: "Full-time",
+    logo: "🔧",
+    category: "Technical",
+    description: "ITI or equivalent experience in electrical field."
+  },
+  {
+    id: 3,
+    title: "Data Entry Operator",
+    company: "Future Smile Care",
+    location: "Bihar, India",
+    salary: "₹20,360",
+    type: "Full-time",
+    logo: "💻",
+    category: "Administrative",
+    description: "Basic knowledge of Excel for MIS preparation and data handling."
+  },
+];
+
 // ─── Components ───────────────────────────────────────────────────────────────
 
-function HeroSection() {
+function HeroSection({ jobsCount }: { jobsCount: number }) {
   return (
     <section className="relative min-h-screen bg-gray-950 flex items-center justify-center overflow-hidden pt-16">
       {/* Pattern */}
@@ -79,7 +115,7 @@ function HeroSection() {
       <div className="relative z-10 max-w-5xl mx-auto px-4 text-center pt-20 pb-10">
         <div className="inline-flex items-center gap-2 bg-red-600/10 border border-red-600/30 text-red-400 text-xs font-semibold px-4 py-2 rounded-full mb-8 animate-bounce">
           <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-          00+ new jobs added this week
+          {jobsCount}+ new jobs added this week
         </div>
 
         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white leading-[0.9] tracking-tight mb-6">
@@ -130,37 +166,18 @@ function JobCard({ job, onApply }: any) {
 
 function JobsSection({ onApply, activeCategory, setActiveCategory }: any) {
   const [search, setSearch] = useState("");
-  const [jobs, setJobs] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [jobs] = useState<any[]>(DEFAULT_JOBS);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    careerApi
-      .getJobs({ category: activeCategory, search })
-      .then((data: any) => {
-        setJobs(data.jobs || []);
-        setLoading(false);
-      })
-      .catch((err: any) => {
-        console.error("Failed to fetch jobs:", err);
-        setJobs([]);
-        setLoading(false);
-      });
-  }, [activeCategory, search]);
+  const categoryNames = ["All", "Supervisory", "Technical", "Administrative"];
 
-  useEffect(() => {
-    careerApi
-      .getCategories()
-      .then((data: any) => {
-        setCategories(data.categories || []);
-      })
-      .catch((err: any) => {
-        console.error("Failed to fetch categories:", err);
-      });
-  }, []);
-
-  const categoryNames = categories.map(cat => cat.name) || ["All", "Finance", "Development", "Marketing"];
+  // Filter jobs based on search and category
+  const filteredJobs = jobs.filter(job => {
+    const matchesSearch = job.title.toLowerCase().includes(search.toLowerCase()) || 
+                          job.description?.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = activeCategory === "All" || job.category === activeCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <section className="bg-gray-950 py-20 px-4">
@@ -204,7 +221,7 @@ function JobsSection({ onApply, activeCategory, setActiveCategory }: any) {
               <div key={i} className="bg-gray-900 rounded-2xl p-5 animate-pulse h-52 border border-gray-800"></div>
             ))}
           </div>
-        ) : jobs.length === 0 ? (
+        ) : filteredJobs.length === 0 ? (
           <div className="text-center py-20 text-gray-500">
             <div className="text-5xl mb-4">🔍</div>
             <p className="text-lg font-semibold">No jobs found</p>
@@ -212,7 +229,7 @@ function JobsSection({ onApply, activeCategory, setActiveCategory }: any) {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {jobs.map(job => (
+            {filteredJobs.map(job => (
               <JobCard key={job.id} job={job} onApply={onApply} />
             ))}
           </div>
@@ -400,7 +417,7 @@ export default function CareerPage() {
 
   return (
     <div className="min-h-screen bg-gray-950 font-sans">
-      <HeroSection />
+      <HeroSection jobsCount={DEFAULT_JOBS.length} />
       <JobsSection onApply={setSelectedJob} activeCategory={filterCategory} setActiveCategory={setFilterCategory} />
       {/* <SubscribeSection /> */}
       {selectedJob && <ApplyModal job={selectedJob} onClose={() => setSelectedJob(null)} />}

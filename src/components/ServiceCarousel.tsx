@@ -13,16 +13,19 @@ interface ServiceCarouselProps {
 }
 
 const ServiceCarousel: React.FC<ServiceCarouselProps> = ({ services }) => {
-const [emblaRef, emblaApi] = useEmblaCarousel({ 
-  loop: true, 
-  align: "start",
-  skipSnaps: false,
-  dragFree: false,
-  duration: 30,
-  slidesToScroll: 1
-}); 
-const [selectedIndex, setSelectedIndex] = useState(0);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: true, 
+    align: "start",
+    skipSnaps: false,
+    dragFree: false,
+    duration: 30,
+    slidesToScroll: 1,
+    watchDrag: true,
+  }); 
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+  const [isHovered, setIsHovered] = useState(false);
 
   const scrollTo = useCallback(
     (index: number) => emblaApi && emblaApi.scrollTo(index),
@@ -40,16 +43,18 @@ const [selectedIndex, setSelectedIndex] = useState(0);
     setScrollSnaps(emblaApi.scrollSnapList());
     emblaApi.on("select", onSelect);
 
-    // Auto-advance carousel every 5 seconds
+    // Auto-advance — band hoga jab card pe hover ho
     const interval = setInterval(() => {
-      emblaApi.scrollNext();
+      if (!isHovered) {
+        emblaApi.scrollNext();
+      }
     }, 4000);
 
     return () => {
       clearInterval(interval);
       emblaApi.off("select", onSelect);
     };
-  }, [emblaApi, onSelect]);
+  }, [emblaApi, onSelect, isHovered]);
 
   const onPrevClick = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -64,7 +69,12 @@ const [selectedIndex, setSelectedIndex] = useState(0);
       <div className="service-carousel-viewport" ref={emblaRef}>
         <div className="service-carousel-content">
           {services.map((service, idx) => (
-            <div key={idx} className="service-carousel-slide">
+            <div 
+              key={idx} 
+              className="service-carousel-slide"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
               <FlipCard
                 title={service.title}
                 description={service.description}
