@@ -115,14 +115,7 @@ const Navbar = () => {
           )
         ))}
         {/* theme toggle between links and contact */}
-        <button
-          type="button"
-          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-          className="ml-2 p-2 rounded-full text-foreground hover:text-primary"
-          aria-label="Toggle theme"
-        >
-          {theme === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-        </button>
+        
       </div>
 
       {/* Right side */}
