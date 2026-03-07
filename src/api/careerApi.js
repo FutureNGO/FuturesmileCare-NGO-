@@ -83,26 +83,21 @@ export const careerApi = {
     })),
 
   // Submit application  (plain object OR FormData for resume upload)
-  applyJob: async (jobId, payload) => {
-    // FormData path — includes file upload
+ applyJob: async (jobId, payload) => {
     if (typeof FormData !== "undefined" && payload instanceof FormData) {
       try {
-        const res  = await fetch(`${BASE_URL}/apply`, { method: "POST", body: payload });
+        const res = await fetch(`${BASE_URL}/apply`, { method: "POST", body: payload });
         const data = await res.json();
+        if (res.status === 409) {
+          return { error: "already_applied", message: "You already applied for this position." };
+        }
         if (!res.ok) throw new Error(data.error || "Request failed");
         return data;
-      } catch {
+      } catch (err) {
+        if (err.message === "already_applied") return { error: "already_applied" };
         return { success: true, message: "Application submitted!", applicationId: "APP-" + Date.now() };
       }
     }
-    // JSON path
-    const { name, email, phone, coverLetter } = payload ?? {};
-    return request("/apply", {
-      method: "POST",
-      body: JSON.stringify({ jobId, name, email, phone, coverLetter }),
-    }).catch(() => ({
-      success: true, message: "Application submitted!", applicationId: "APP-" + Date.now(),
-    }));
   },
 
   // Subscribe to job alerts

@@ -382,7 +382,7 @@ function About() {
     <section id="about" style={{ background: "#050a08", padding: "120px 24px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <Reveal>
-          <div style={{ textAlign: "center", marginBottom: 80 }}>
+          <div style={{ textAlign: "center", marginBottom: 10 }}>
             <div style={{ color: "#34d399", fontSize: 12, letterSpacing: 4, textTransform: "uppercase", marginBottom: 16, fontWeight: 600 }}>Who We Are</div>
             <h2 style={{ fontSize: "clamp(2rem,4vw,3.5rem)", fontWeight: 900, color: "#fff", fontFamily: "'Playfair Display',serif", lineHeight: 1.15 }}>About Future Smile Care</h2>
             <div style={{ width: 60, height: 3, background: "linear-gradient(90deg,#34d399,#059669)", borderRadius: 2, margin: "24px auto 0" }} />
@@ -444,7 +444,7 @@ function Mission({ onDonateClick }: { onDonateClick: () => void }) {
     <section id="mission" style={{ background: "#030806", padding: "120px 24px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <Reveal>
-          <div style={{ textAlign: "center", marginBottom: 80 }}>
+          <div style={{ textAlign: "center", marginBottom: 10 }}>
             <div style={{ color: "#34d399", fontSize: 12, letterSpacing: 4, textTransform: "uppercase", marginBottom: 16, fontWeight: 600 }}>Our Mission</div>
             <h2 style={{ fontSize: "clamp(2rem,4vw,3.5rem)", fontWeight: 900, color: "#fff", fontFamily: "'Playfair Display',serif" }}>How You Can Help</h2>
           </div>
@@ -456,10 +456,10 @@ function Mission({ onDonateClick }: { onDonateClick: () => void }) {
                 onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(52,211,153,0.05)"; e.currentTarget.style.borderColor = "rgba(52,211,153,0.35)"; e.currentTarget.style.transform = "translateY(-8px)"; e.currentTarget.style.boxShadow = "0 20px 50px rgba(52,211,153,0.1)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.02)"; e.currentTarget.style.borderColor = "rgba(52,211,153,0.12)"; e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; }}>
                 <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg,${c.color},transparent)` }} />
-                <div style={{ fontSize: 48, marginBottom: 24 }}>{c.icon}</div>
-                <h3 style={{ color: "#fff", fontSize: 20, fontWeight: 800, marginBottom: 16, fontFamily: "'Playfair Display',serif" }}>{c.title}</h3>
+                <div style={{ fontSize: 48, marginBottom: 10 }}>{c.icon}</div>
+                <h3 style={{ color: "#fff", fontSize: 20, fontWeight: 800, marginBottom: 10, fontFamily: "'Playfair Display',serif" }}>{c.title}</h3>
                 <p style={{ color: "#6b7280", fontSize: 15, lineHeight: 1.8 }}>{c.desc}</p>
-                <button onClick={onDonateClick} style={{ marginTop: 28, background: "transparent", border: `1px solid #059669`, color: "#059669", padding: "10px 24px", borderRadius: 50, fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "all 0.3s" }}
+                <button onClick={onDonateClick} style={{ marginTop: 10, background: "transparent", border: `1px solid #059669`, color: "#059669", padding: "10px 24px", borderRadius: 50, fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "all 0.3s" }}
                   onMouseEnter={(e) => { e.currentTarget.style.background = c.color; e.currentTarget.style.color = "#fff"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = c.color; }}>
                   Learn More →
@@ -484,15 +484,27 @@ function Programs() {
     { icon: "👩‍💼", title: "Women Empowerment", desc: "Skill development, self-help groups and entrepreneurship training for women across semi-urban communities.", tag: "Empowerment", color: "#db2777" },
   ];
 
-  const visible = 3;
+  const [visible, setVisible] = useState(3);
+
+  useEffect(() => {
+    const updateVisible = () => {
+      if (window.innerWidth < 640) setVisible(1);
+      else if (window.innerWidth < 1024) setVisible(2);
+      else setVisible(3);
+    };
+    updateVisible();
+    window.addEventListener("resize", updateVisible);
+    return () => window.removeEventListener("resize", updateVisible);
+  }, []);
+
   const { current, go, pause, resume } = useCarousel(programs.length, visible, true, 3200);
 
   return (
     <section id="programs" style={{ background: "#050a08", padding: "120px 24px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <Reveal>
-          <div style={{ textAlign: "center", marginBottom: 64 }}>
-            <div style={{ color: "#34d399", fontSize: 12, letterSpacing: 4, textTransform: "uppercase", marginBottom: 16, fontWeight: 600 }}>What We Do</div>
+          <div style={{ textAlign: "center", marginBottom: 10 }}>
+            <div style={{ color: "#34d399", fontSize: 12, letterSpacing: 4, textTransform: "uppercase", marginBottom: 5, fontWeight: 600 }}>What We Do</div>
             <h2 style={{ fontSize: "clamp(2rem,4vw,3.5rem)", fontWeight: 900, color: "#fff", fontFamily: "'Playfair Display',serif" }}>Our Programs</h2>
             <div style={{ width: 60, height: 3, background: "linear-gradient(90deg,#34d399,#059669)", borderRadius: 2, margin: "24px auto 0" }} />
           </div>
@@ -520,7 +532,6 @@ function Programs() {
               </div>
             </div>
 
-            {/* Arrows */}
             {(["prev", "next"] as const).map((dir) => (
               <button key={dir} onClick={() => go(dir)} style={{
                 position: "absolute", top: "50%", [dir === "prev" ? "left" : "right"]: -20,
@@ -535,7 +546,6 @@ function Programs() {
               </button>
             ))}
 
-            {/* Dots */}
             <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 32 }}>
               {Array.from({ length: programs.length - visible + 1 }).map((_, i) => (
                 <button key={i} onClick={() => go(i > current ? "next" : "prev")}
@@ -561,7 +571,19 @@ function CoreMembersCarousel() {
     { name: "Sonali Singh", role: "Communications", emoji: "🧑‍💻", image: coreMember7, bg: "#1e3a5f" },
   ];
 
-  const visible = 4;
+  const [visible, setVisible] = useState(4);
+
+  useEffect(() => {
+    const updateVisible = () => {
+      if (window.innerWidth < 640) setVisible(1);
+      else if (window.innerWidth < 1024) setVisible(2);
+      else setVisible(4);
+    };
+    updateVisible();
+    window.addEventListener("resize", updateVisible);
+    return () => window.removeEventListener("resize", updateVisible);
+  }, []);
+
   const { current, go, pause, resume } = useCarousel(members.length, visible, true, 2800);
 
   return (
@@ -585,7 +607,6 @@ function CoreMembersCarousel() {
         </div>
       </div>
 
-      {/* Arrows */}
       {(["prev", "next"] as const).map((dir) => (
         <button key={dir} onClick={() => go(dir)} style={{
           position: "absolute", top: "50%", [dir === "prev" ? "left" : "right"]: -18,
@@ -600,7 +621,6 @@ function CoreMembersCarousel() {
         </button>
       ))}
 
-      {/* Dots */}
       <div style={{ display: "flex", justifyContent: "center", gap: 6, marginTop: 28 }}>
         {Array.from({ length: members.length - visible + 1 }).map((_, i) => (
           <button key={i} style={{ width: i === current ? 24 : 7, height: 7, borderRadius: 4, background: i === current ? "#34d399" : "rgba(255,255,255,0.12)", border: "none", cursor: "pointer", transition: "all 0.35s", padding: 0 }} />
@@ -609,7 +629,6 @@ function CoreMembersCarousel() {
     </div>
   );
 }
-
 // ── Founder ────────────────────────────────────────────────────────────────────
 function Founder({ onDonateClick }: { onDonateClick: () => void }) {
   return (
@@ -764,7 +783,7 @@ function Footer({ onDonateClick }: { onDonateClick: () => void }) {
   const cols: FooterCol[] = [
     { title: "Services", links: ["Electrical Work", "Civil Construction", "Transportation", "Highway Projects"] },
     { title: "Quick Links", links: ["Home", "About Us", "Programs", "Donate"] },
-    { title: "Contact", links: ["info@futuresmilecare.org", "+91 98765 43210", "Mumbai, Maharashtra", "India"] },
+    { title: "Contact", links: ["Tola Bada Koirauli, Tola Bada Koirauli, Panch Machhagar Vill: Machhagar Patti Jagdish, Hathua, Gopalganj, Bihar - 841436", "info@futuresmilecare.org", "+91 98765 43210"] },
   ];
 
   return (

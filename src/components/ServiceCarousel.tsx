@@ -13,8 +13,15 @@ interface ServiceCarouselProps {
 }
 
 const ServiceCarousel: React.FC<ServiceCarouselProps> = ({ services }) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" });
-  const [selectedIndex, setSelectedIndex] = useState(0);
+const [emblaRef, emblaApi] = useEmblaCarousel({ 
+  loop: true, 
+  align: "start",
+  skipSnaps: false,
+  dragFree: false,
+  duration: 30,
+  slidesToScroll: 1
+}); 
+const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
   const scrollTo = useCallback(
@@ -36,7 +43,7 @@ const ServiceCarousel: React.FC<ServiceCarouselProps> = ({ services }) => {
     // Auto-advance carousel every 5 seconds
     const interval = setInterval(() => {
       emblaApi.scrollNext();
-    }, 5000);
+    }, 4000);
 
     return () => {
       clearInterval(interval);

@@ -6,16 +6,14 @@ import p4 from "@/assets/p4.png";
 
 const ClientsSection = () => {
   const { ref } = useScrollAnimation();
-
   const logos = [p1, p2, p3, p4];
 
   return (
     <section ref={ref} className="w-full py-5 overflow-hidden">
       <div className="relative w-full overflow-hidden">
-
-        {/* Track */}
         <div className="flex w-max animate-marquee">
-          {[...logos, ...logos].map((logo, index) => (
+          {/* 4 baar repeat karo smooth loop ke liye */}
+          {[...logos, ...logos, ...logos, ...logos].map((logo, index) => (
             <div
               key={index}
               className="flex items-center justify-center px-12"
@@ -28,7 +26,6 @@ const ClientsSection = () => {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

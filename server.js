@@ -15,6 +15,8 @@ import { Resend } from "resend";
 import nodemailer from "nodemailer";
 
 dotenv.config();
+import multer from "multer";
+const upload = multer({ storage: multer.memoryStorage() });
 
 // ── Validate env ──────────────────────────────────────────────────
 const { SUPABASE_URL, SUPABASE_ANON_KEY, PORT = 5000 } = process.env;
@@ -74,15 +76,15 @@ const require_fields = (fields) => (req, res, next) => {
 };
 
 // ── Email helper (using Resend service) ─────────────────────────────
-const resend = new Resend(process.env.RESEND_API_KEY || "");
-const CONTACT_EMAIL = process.env.CONTACT_EMAIL || "sahoodipanjali765@gmail.com";
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL;
 
 async function sendContactEmail({ name, email, message }) {
   console.log("sendContactEmail called; RESEND_API_KEY present?", !!process.env.RESEND_API_KEY);
 
   // try Resend first if available
-  if (process.env.RESEND_API_KEY) {
-    try {
+if (resend && process.env.RESEND_API_KEY && process.env.RESEND_API_KEY.trim() !== "") {
+      try {
       await resend.emails.send({
         from: process.env.FROM_EMAIL || "no-reply@example.com",
         to: CONTACT_EMAIL,
@@ -115,6 +117,25 @@ async function sendContactEmail({ name, email, message }) {
 
   // if neither service worked, log mock
   console.log("[mock email]", { name, email, message });
+}
+async function sendContactEmailWithResume({ name, email, message, resumeBuffer, resumeName }) {
+  if (process.env.SMTP_HOST && process.env.SMTP_USER) {
+    try {
+      await smtpTransport.sendMail({
+        from: process.env.SMTP_FROM || process.env.SMTP_USER,
+        to: CONTACT_EMAIL,
+        subject: `New Job Application - ${name}`,
+        text: `Email: ${email}\n\n${message}`,
+        attachments: resumeBuffer ? [{
+          filename: resumeName || "resume.pdf",
+          content: resumeBuffer,
+        }] : [],
+      });
+      console.log("✅ Email with resume sent!");
+    } catch (err) {
+      console.error("SMTP error:", err);
+    }
+  }
 }
 
 
@@ -208,9 +229,13 @@ app.get("/api/categories", async (req, res) => {
 });
 
 // POST /api/apply
-app.post("/api/apply", require_fields(["name", "email", "jobId"]), async (req, res) => {
+app.post("/api/apply", upload.single("resume"), async (req, res) => {
   try {
     const { name, email, phone, coverLetter, jobId } = req.body;
+
+    if (!name || !email || !jobId) {
+      return res.status(400).json({ error: "Missing: name, email, jobId" });
+    }
 
     if (!emailRx.test(email))
       return res.status(400).json({ error: "Invalid email address" });
@@ -235,9 +260,18 @@ app.post("/api/apply", require_fields(["name", "email", "jobId"]), async (req, r
 
     if (error) {
       if (error.code === "23505")
-        return res.status(409).json({ error: "You already applied for this position." });
+        return res.status(409).json({ error: "already_applied", message: "You already applied for this position." });
       throw error;
     }
+
+    // Email with resume
+    await sendContactEmailWithResume({
+      name: `${job.title} @ ${job.company}`,
+      email: email,
+      message: `Name: ${name}\nPhone: ${phone || "N/A"}\nCover Letter: ${coverLetter || "N/A"}`,
+      resumeBuffer: req.file ? req.file.buffer : null,
+      resumeName: req.file ? req.file.originalname : null,
+    });
 
     console.log(`✅  ${data.id}  ${name}  →  ${job.title} @ ${job.company}`);
     res.status(201).json({ success: true, message: "Application submitted!", applicationId: data.id });
@@ -247,18 +281,30 @@ app.post("/api/apply", require_fields(["name", "email", "jobId"]), async (req, r
 });
 
 // POST /api/contact  (site-wide contact form)
+// POST /api/contact  (site-wide contact form)
 app.post("/api/contact", require_fields(["name", "email", "message"]), async (req, res) => {
   try {
     const { name, email, message } = req.body;
     if (!emailRx.test(email))
       return res.status(400).json({ error: "Invalid email address" });
 
-    // Always try to send the email; sendContactEmail handles missing API key by logging.
+    // 1️⃣ Email notification bhejo
     await sendContactEmail({ name, email, message });
 
-    // mimic old behavior when supabase is missing
+    // 2️⃣ Database mein save karo
     if (useMock) {
-      console.log("[mock contact]", { name, email, message });
+      console.log("[mock contact saved]", { name, email, message });
+    } else {
+      const { error: dbError } = await supabase
+        .from("contacts")
+        .insert([{ name, email, message }]);
+
+      if (dbError) {
+        console.error("Supabase insert error:", dbError);
+        // Email toh gayi, bas DB error log karo — user ko block mat karo
+      } else {
+        console.log("✅ Contact saved to DB:", name, email);
+      }
     }
 
     res.status(201).json({ success: true, message: "Message sent! We'll be in touch." });

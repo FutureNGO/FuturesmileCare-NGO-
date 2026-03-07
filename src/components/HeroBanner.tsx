@@ -76,7 +76,7 @@ const HeroBanner = () => {
         {/* <div className="absolute inset-0" /> */}
 
         {/* Content */}
-        <div className="relative z-10 h-full flex flex-col justify-between p-8 md:p-t-5 lg:p-t-5 ml-10 gap-10">
+        <div className="relative z-10 h-full flex flex-col justify-between p-5 md:p-t-5 lg:p-t-5 ml-10 gap-10">
           <div className="flex flex-col items-start justify-center flex-1 max-w-2xl">
             <AnimatePresence mode="wait">
               <motion.h1
@@ -85,7 +85,7 @@ const HeroBanner = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-2xl md:text-4xl lg:text-4xl font-bold text-foreground leading-tight mb-8"
+                className="text-2xl md:text-4xl lg:text-4xl font-bold text-foreground leading-tight mb-5"
               >
                 {slides[current].title}
               </motion.h1>
@@ -102,33 +102,33 @@ const HeroBanner = () => {
                 {slides[current].description}
               </motion.p>
             </AnimatePresence>
-            <motion.button
+            {/* <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
               className="cyberpunk-btn"
             >
               Know More
-            </motion.button>
+            </motion.button> */}
           </div>
 
           {/* Navigation Arrows */}
-          <div className="relative m-t-10 m-l-10">
+          {/* <div className="relative  flex justify-start">
             <div className="inline-flex items-center gap-5  px-10 py-4 -ml-10 -mb-5 md:-ml-12 md:-mb-5 lg:-ml-16 lg:-mb-5">
               <button
                 onClick={prev}
-                className="w-11 h-11 rounded-full bg-white/70 flex items-center justify-center hover:bg-black/90 transition-all duration-300"
+                className="flex items-center justify-center hover:bg-black/90 transition-all duration-300"
               >
                 <ArrowLeft className="w-5 h-5 text-primary" />
               </button>
               <button
                 onClick={next}
-                className="w-11 h-11 rounded-full bg-white/70 flex items-center justify-center hover:bg-black/90 transition-all duration-300"
+                className="flex items-center justify-center hover:bg-black/90 transition-all duration-300"
               >
                 <ArrowRight className="w-5 h-5 text-primary" />
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Slide indicators */}

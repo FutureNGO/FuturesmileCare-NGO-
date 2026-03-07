@@ -1,5 +1,47 @@
 import { useState, useEffect } from "react";
 import careerApi from "@/api/careerApi";
+import styled from "styled-components";
+
+// ─── Pattern Component ────────────────────────────────────────────────────────
+const StyledWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+
+  .grid-wrapper {
+    min-height: 100%;
+    width: 100%;
+    position: relative;
+    background-color: transparent;
+  }
+  .grid-background {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    background-image: linear-gradient(to right, #ffffff10 1px, transparent 1px),
+      linear-gradient(to bottom, #ffffff10 1px, transparent 1px);
+    background-size: 20px 30px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%);
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%);
+  }
+`;
+
+const Pattern = () => {
+  return (
+    <StyledWrapper>
+      <div className="grid-wrapper">
+        <div className="grid-background" />
+      </div>
+    </StyledWrapper>
+  );
+};
 
 // ─── Static Data ──────────────────────────────────────────────────────────────
 const EXPLORE_CATEGORIES = [
@@ -24,8 +66,11 @@ const STATS = [
 function HeroSection() {
   return (
     <section className="relative min-h-screen bg-gray-950 flex items-center justify-center overflow-hidden pt-16">
+      {/* Pattern */}
+      <Pattern />
+
       {/* Background Effects */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-red-800/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_60%,_rgba(0,0,0,0.8)_100%)]"></div>
@@ -34,7 +79,7 @@ function HeroSection() {
       <div className="relative z-10 max-w-5xl mx-auto px-4 text-center pt-20 pb-10">
         <div className="inline-flex items-center gap-2 bg-red-600/10 border border-red-600/30 text-red-400 text-xs font-semibold px-4 py-2 rounded-full mb-8 animate-bounce">
           <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-          1,200+ new jobs added this week
+          00+ new jobs added this week
         </div>
 
         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white leading-[0.9] tracking-tight mb-6">
@@ -47,33 +92,6 @@ function HeroSection() {
         <p className="text-gray-400 text-base sm:text-lg max-w-xl mx-auto mb-12 leading-relaxed">
           Let us help you find a job that suits you the best. Thousands of opportunities waiting for you.
         </p>
-
-        {/* Search Bar */}
-        <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto mb-16">
-          <input
-            type="text"
-            placeholder="Job title, keywords..."
-            className="flex-1 bg-gray-900 border border-gray-700 text-white placeholder-gray-500 px-5 py-4 rounded-xl focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all"
-          />
-          <input
-            type="text"
-            placeholder="Location"
-            className="sm:w-44 bg-gray-900 border border-gray-700 text-white placeholder-gray-500 px-5 py-4 rounded-xl focus:outline-none focus:border-red-500 transition-all"
-          />
-          <button className="bg-red-600 hover:bg-red-500 text-white font-bold px-8 py-4 rounded-xl transition-all duration-200 hover:shadow-xl hover:shadow-red-600/40 whitespace-nowrap">
-            Find Job
-          </button>
-        </div>
-
-        {/* Stats */}
-        <div className="flex flex-wrap justify-center gap-8 sm:gap-16">
-          {STATS.map((s, i) => (
-            <div key={i} className="text-center">
-              <div className="text-3xl sm:text-4xl font-black text-white">{s.value}</div>
-              <div className="text-gray-500 text-sm mt-1">{s.label}</div>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Scroll indicator */}
@@ -154,7 +172,6 @@ function JobsSection({ onApply, activeCategory, setActiveCategory }: any) {
           </h2>
         </div>
 
-        {/* Search */}
         <div className="max-w-md mx-auto mb-8">
           <input
             type="text"
@@ -165,7 +182,6 @@ function JobsSection({ onApply, activeCategory, setActiveCategory }: any) {
           />
         </div>
 
-        {/* Category Tabs */}
         <div className="flex flex-wrap justify-center gap-2 mb-10">
           {categoryNames.map(cat => (
             <button
@@ -182,7 +198,6 @@ function JobsSection({ onApply, activeCategory, setActiveCategory }: any) {
           ))}
         </div>
 
-        {/* Job Grid */}
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map(i => (
@@ -202,44 +217,6 @@ function JobsSection({ onApply, activeCategory, setActiveCategory }: any) {
             ))}
           </div>
         )}
-      </div>
-    </section>
-  );
-}
-
-function CategoriesSection({ onCategoryClick }: any) {
-  return (
-    <section className="bg-black py-20 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl sm:text-5xl font-black text-white">
-            Explore By <span className="text-red-500">Categories</span>
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {EXPLORE_CATEGORIES.map((cat, i) => (
-            <div
-              key={i}
-              onClick={() => onCategoryClick(cat.label)}
-              className={`rounded-2xl p-6 cursor-pointer transition-all duration-300 hover:-translate-y-1 border ${
-                i === 4
-                  ? "bg-red-600 border-red-500 shadow-xl shadow-red-600/30 col-span-2 md:col-span-1"
-                  : "bg-gray-900 border-gray-800 hover:border-red-600/50 hover:bg-gray-800"
-              }`}
-            >
-              <div className="text-3xl mb-3">{cat.icon}</div>
-              <div className={`font-bold text-base mb-1 ${i === 4 ? "text-white" : "text-white"}`}>{cat.label}</div>
-              <div className={`text-sm ${i === 4 ? "text-red-200" : "text-gray-500"}`}>{cat.count} Openings</div>
-            </div>
-          ))}
-        </div>
-
-        {/* <div className="text-center mt-8">
-          <button onClick={() => onCategoryClick("All")} className="bg-red-600 hover:bg-red-500 text-white font-bold px-8 py-3 rounded-full transition-all duration-200 hover:shadow-lg hover:shadow-red-600/30">
-            Browse All Categories
-          </button>
-        </div> */}
       </div>
     </section>
   );
@@ -265,68 +242,66 @@ function SubscribeSection() {
     }
   };
 
-  return (
-    <section className="bg-gray-950 py-20 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Decorative phone mockup */}
-          <div className="relative hidden md:flex items-center justify-center">
-            <div className="relative">
-              <div className="w-64 h-96 bg-gray-900 rounded-[2.5rem] border border-gray-700 shadow-2xl flex flex-col items-center justify-center gap-4 p-6">
-                <div className="w-full bg-gray-800 rounded-xl p-4">
-                  <div className="text-white text-xs font-bold mb-2">📋 Job Name</div>
-                  <div className="h-2 bg-gray-700 rounded w-3/4 mb-1"></div>
-                  <div className="h-2 bg-gray-700 rounded w-1/2"></div>
-                  <button className="mt-3 w-full bg-red-600 text-white text-xs font-bold py-2 rounded-lg">Apply</button>
-                </div>
-                <div className="w-full bg-gray-800 rounded-xl p-4">
-                  <div className="text-white text-xs font-bold mb-2">📍 Job Match</div>
-                  <div className="h-2 bg-gray-700 rounded w-full mb-1"></div>
-                  <div className="h-2 bg-gray-700 rounded w-2/3"></div>
-                  <button className="mt-3 w-full bg-red-600 text-white text-xs font-bold py-2 rounded-lg">View</button>
-                </div>
-              </div>
-              <div className="absolute -top-4 -right-4 w-16 h-16 bg-red-600 rounded-2xl flex items-center justify-center text-2xl shadow-lg">🔔</div>
-            </div>
-          </div>
+  // return (
+  //   <section className="bg-gray-950 py-20 px-4">
+  //     <div className="max-w-7xl mx-auto">
+  //       <div className="grid md:grid-cols-2 gap-12 items-center">
+  //         <div className="relative hidden md:flex items-center justify-center">
+  //           <div className="relative">
+  //             <div className="w-64 h-96 bg-gray-900 rounded-[2.5rem] border border-gray-700 shadow-2xl flex flex-col items-center justify-center gap-4 p-6">
+  //               <div className="w-full bg-gray-800 rounded-xl p-4">
+  //                 <div className="text-white text-xs font-bold mb-2">📋 Job Name</div>
+  //                 <div className="h-2 bg-gray-700 rounded w-3/4 mb-1"></div>
+  //                 <div className="h-2 bg-gray-700 rounded w-1/2"></div>
+  //                 <button className="mt-3 w-full bg-red-600 text-white text-xs font-bold py-2 rounded-lg">Apply</button>
+  //               </div>
+  //               <div className="w-full bg-gray-800 rounded-xl p-4">
+  //                 <div className="text-white text-xs font-bold mb-2">📍 Job Match</div>
+  //                 <div className="h-2 bg-gray-700 rounded w-full mb-1"></div>
+  //                 <div className="h-2 bg-gray-700 rounded w-2/3"></div>
+  //                 <button className="mt-3 w-full bg-red-600 text-white text-xs font-bold py-2 rounded-lg">View</button>
+  //               </div>
+  //             </div>
+  //             <div className="absolute -top-4 -right-4 w-16 h-16 bg-red-600 rounded-2xl flex items-center justify-center text-2xl shadow-lg">🔔</div>
+  //           </div>
+  //         </div>
 
-          {/* Content */}
-          <div>
-            <h2 className="text-4xl sm:text-5xl font-black text-white leading-tight mb-6">
-              Always Get The <span className="text-red-500">Latest</span> Information
-            </h2>
-            <p className="text-gray-400 text-base mb-8 leading-relaxed">
-              One Universal Hub For News, Openings, Announcements And Career Opportunities. Be The First To Know When Roles That Match Your Skills And Ambitions Become Available.
-            </p>
+  //         <div>
+  //           <h2 className="text-4xl sm:text-5xl font-black text-white leading-tight mb-6">
+  //             Always Get The <span className="text-red-500">Latest</span> Information
+  //           </h2>
+  //           <p className="text-gray-400 text-base mb-8 leading-relaxed">
+  //             One Universal Hub For News, Openings, Announcements And Career Opportunities. Be The First To Know When Roles That Match Your Skills And Ambitions Become Available.
+  //           </p>
 
-            <div className="flex flex-col sm:flex-row gap-3">
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                onKeyDown={e => e.key === "Enter" && handleSubscribe()}
-                className="flex-1 bg-gray-900 border border-gray-700 text-white placeholder-gray-500 px-5 py-4 rounded-xl focus:outline-none focus:border-red-500 transition-all"
-              />
-              <button
-                onClick={handleSubscribe}
-                disabled={loading}
-                className="bg-red-600 hover:bg-red-500 disabled:opacity-50 text-white font-bold px-8 py-4 rounded-xl transition-all duration-200 hover:shadow-xl hover:shadow-red-600/40 whitespace-nowrap"
-              >
-                {loading ? "..." : "Subscribe"}
-              </button>
-            </div>
+  //           <div className="flex flex-col sm:flex-row gap-3">
+  //             <input
+  //               type="email"
+  //               placeholder="Enter your email address"
+  //               value={email}
+  //               onChange={e => setEmail(e.target.value)}
+  //               onKeyDown={e => e.key === "Enter" && handleSubscribe()}
+  //               className="flex-1 bg-gray-900 border border-gray-700 text-white placeholder-gray-500 px-5 py-4 rounded-xl focus:outline-none focus:border-red-500 transition-all"
+  //             />
+  //             <button
+  //               onClick={handleSubscribe}
+  //               disabled={loading}
+  //               className="bg-red-600 hover:bg-red-500 disabled:opacity-50 text-white font-bold px-8 py-4 rounded-xl transition-all duration-200 hover:shadow-xl hover:shadow-red-600/40 whitespace-nowrap"
+  //             >
+  //               {loading ? "..." : "Subscribe"}
+  //             </button>
+  //           </div>
 
-            {status && (
-              <div className={`mt-4 px-4 py-3 rounded-xl text-sm font-medium ${status.type === "success" ? "bg-green-900/30 border border-green-700/50 text-green-400" : "bg-red-900/30 border border-red-700/50 text-red-400"}`}>
-                {status.message}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+  //           {status && (
+  //             <div className={`mt-4 px-4 py-3 rounded-xl text-sm font-medium ${status.type === "success" ? "bg-green-900/30 border border-green-700/50 text-green-400" : "bg-red-900/30 border border-red-700/50 text-red-400"}`}>
+  //               {status.message}
+  //             </div>
+  //           )}
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </section>
+  // );
 }
 
 function ApplyModal({ job, onClose }: any) {
@@ -341,11 +316,14 @@ function ApplyModal({ job, onClose }: any) {
   };
 
   const handleSubmit = async () => {
-    if (!form.name || !form.email) {
-      setStatus({ type: "error", message: "Please provide your name and email." });
-      return;
-    }
-
+  if (!form.name || !form.email) {
+    setStatus({ type: "error", message: "Please provide your name and email." });
+    return;
+  }
+  if (!resume) {
+    setStatus({ type: "error", message: "Please upload your resume." });
+    return;
+  }
     setLoading(true);
     setStatus(null);
     try {
@@ -358,14 +336,18 @@ function ApplyModal({ job, onClose }: any) {
         fd.append("phone", form.phone || "");
         fd.append("coverLetter", form.coverLetter || "");
         fd.append("resume", resume, resume.name);
-        res = await careerApi.applyJob(job.id, fd);
+       res = await careerApi.applyJob(job.id, fd);
       } else {
         res = await careerApi.applyJob(job.id, form);
       }
 
-      setStatus({ type: "success", message: (res && res.message ? res.message : "Application submitted") + (res && res.applicationId ? " ID: " + res.applicationId : "") });
-
-      // backend sends notification email; no client-side mailto used
+      
+      if (res && res.error === "already_applied") {
+        setStatus({ type: "error", message: "⚠️ You have already applied for this position!" });
+        setLoading(false);
+        return;
+      }
+      setStatus({ type: "success", message: res && res.message ? res.message : "Application submitted!" });
       setTimeout(() => onClose(), 2000);
     } catch (err: any) {
       setStatus({ type: "error", message: err.message || "Failed to submit application" });
@@ -386,37 +368,12 @@ function ApplyModal({ job, onClose }: any) {
         </div>
 
         <div className="space-y-4">
-          <input
-            type="text"
-            placeholder="Full Name *"
-            value={form.name}
-            onChange={e => setForm({...form, name: e.target.value})}
-            className="w-full bg-gray-800 border border-gray-700 text-white placeholder-gray-500 px-4 py-3 rounded-xl focus:outline-none focus:border-red-500 transition-all"
-          />
-          <input
-            type="email"
-            placeholder="Email Address *"
-            value={form.email}
-            onChange={e => setForm({...form, email: e.target.value})}
-            className="w-full bg-gray-800 border border-gray-700 text-white placeholder-gray-500 px-4 py-3 rounded-xl focus:outline-none focus:border-red-500 transition-all"
-          />
-          <input
-            type="tel"
-            placeholder="Phone Number"
-            value={form.phone}
-            onChange={e => setForm({...form, phone: e.target.value})}
-            className="w-full bg-gray-800 border border-gray-700 text-white placeholder-gray-500 px-4 py-3 rounded-xl focus:outline-none focus:border-red-500 transition-all"
-          />
-          <textarea
-            placeholder="Cover Letter (optional)"
-            value={form.coverLetter}
-            onChange={e => setForm({...form, coverLetter: e.target.value})}
-            rows={4}
-            className="w-full bg-gray-800 border border-gray-700 text-white placeholder-gray-500 px-4 py-3 rounded-xl focus:outline-none focus:border-red-500 transition-all resize-none"
-          />
-
+          <input type="text" placeholder="Full Name *" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full bg-gray-800 border border-gray-700 text-white placeholder-gray-500 px-4 py-3 rounded-xl focus:outline-none focus:border-red-500 transition-all" />
+          <input type="email" placeholder="Email Address *" value={form.email} onChange={e => setForm({...form, email: e.target.value})} className="w-full bg-gray-800 border border-gray-700 text-white placeholder-gray-500 px-4 py-3 rounded-xl focus:outline-none focus:border-red-500 transition-all" />
+          <input type="tel" placeholder="Phone Number" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} className="w-full bg-gray-800 border border-gray-700 text-white placeholder-gray-500 px-4 py-3 rounded-xl focus:outline-none focus:border-red-500 transition-all" />
+          <textarea placeholder="Cover Letter (optional)" value={form.coverLetter} onChange={e => setForm({...form, coverLetter: e.target.value})} rows={4} className="w-full bg-gray-800 border border-gray-700 text-white placeholder-gray-500 px-4 py-3 rounded-xl focus:outline-none focus:border-red-500 transition-all resize-none" />
           <div>
-            <label className="text-sm text-gray-300 mb-2 block">Upload Resume (PDF/DOC)</label>
+<label className="text-sm text-gray-300 mb-2 block">Upload Resume (PDF/DOC) <span className="text-red-500">*</span></label>
             <input type="file" accept=".pdf,.doc,.docx" onChange={handleFileChange} className="text-sm text-gray-400" />
             {resume && <div className="mt-2 text-xs text-gray-400">Selected: {resume.name}</div>}
           </div>
@@ -428,11 +385,7 @@ function ApplyModal({ job, onClose }: any) {
           </div>
         )}
 
-        <button
-          onClick={handleSubmit}
-          disabled={loading}
-          className="mt-6 w-full bg-red-600 hover:bg-red-500 disabled:opacity-50 text-white font-bold py-4 rounded-xl transition-all duration-200 hover:shadow-xl hover:shadow-red-600/40"
-        >
+        <button onClick={handleSubmit} disabled={loading} className="mt-6 w-full bg-red-600 hover:bg-red-500 disabled:opacity-50 text-white font-bold py-4 rounded-xl transition-all duration-200 hover:shadow-xl hover:shadow-red-600/40">
           {loading ? "Submitting..." : "Submit Application"}
         </button>
       </div>
@@ -449,8 +402,7 @@ export default function CareerPage() {
     <div className="min-h-screen bg-gray-950 font-sans">
       <HeroSection />
       <JobsSection onApply={setSelectedJob} activeCategory={filterCategory} setActiveCategory={setFilterCategory} />
-      <CategoriesSection onCategoryClick={setFilterCategory} />
-      <SubscribeSection />
+      {/* <SubscribeSection /> */}
       {selectedJob && <ApplyModal job={selectedJob} onClose={() => setSelectedJob(null)} />}
     </div>
   );

@@ -7,7 +7,7 @@ import "./Navbar.css";
 import ContactModal from "./ContactModal";
 
 const navLinks = [
-  { label: "Home", href: "/", isRoute: true, active: true },
+  { label: "Home", href: "/", isRoute: false },
   { label: "About Us", href: "#about", isRoute: false },
   { label: "Our Services", href: "#services", isRoute: false },
   { label: "Career", href: "/career", isRoute: true },
@@ -17,24 +17,36 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [theme, setTheme] = useState<"light"|"dark">(
-    () => {
-      const stored = localStorage.getItem("theme");
-      if (stored === "light" || stored === "dark") {
-        return stored as "light" | "dark";
-      }
-      // default to dark/night mode when no preference yet
-      return "dark";
+  const [activeSection, setActiveSection] = useState("home");
+  const location = useLocation();
+
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    const stored = localStorage.getItem("theme");
+    if (stored === "light" || stored === "dark") {
+      return stored as "light" | "dark";
     }
-  );
+    return "dark";
+  });
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+      const sections = ["home", "about", "services"];
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 80 && rect.bottom >= 200) {
+            setActiveSection(id);
+            break;
+          }
+        }
+      }
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // apply theme class
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -44,6 +56,15 @@ const Navbar = () => {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
+ const isActive = (link: (typeof navLinks)[0]) => {
+  if (link.isRoute) {
+    return location.pathname === link.href;
+  }
+  
+  if (location.pathname !== "/") return false;
+  const section = link.href.replace("#", "");
+  return activeSection === section;
+};
 
   return (
     <motion.nav
@@ -54,48 +75,22 @@ const Navbar = () => {
         scrolled ? "bg-background/95 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}
     >
-      {/* Logo area */}
+      {/* Logo */}
       <div className="flex items-center gap-2">
-        <a href="#home" className="flex items-center">
-          <img
-            src={futuresmilelogo}
-            alt="Future Smile"
-            className="w-30 h-12"
-          />
+        <a href="/" className="flex items-center">
+          <img src={futuresmilelogo} alt="Future Smile" className="w-30 h-12" />
         </a>
-        {/* Compact social icons */}
-        {/* <div className="ml-3">
-          <div className="example-1">
-            <ul>
-              <li className="icon-content">
-                <a href="#" className="link" data-social="spotify" aria-label="Spotify">
-                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" /></svg>
-                </a>
-              </li>
-              <li className="icon-content">
-                <a href="#" className="link" data-social="pinterest" aria-label="Pinterest">
-                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" /></svg>
-                </a>
-              </li>
-              <li className="icon-content">
-                <a href="#" className="link" data-social="dribbble" aria-label="Dribbble">
-                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" /></svg>
-                </a>
-              </li>
-            </ul> */}
-          {/* </div> */}
-        {/* </div> */}
       </div>
 
       {/* Desktop Nav Links */}
       <div className="hidden md:flex items-center gap-10">
-        {navLinks.map((link) => (
+        {navLinks.map((link) =>
           link.isRoute ? (
             <Link
               key={link.label}
               to={link.href}
               className={`text-sm font-medium transition-colors relative group ${
-                link.active ? "text-primary" : "text-foreground hover:text-primary"
+                isActive(link) ? "text-primary" : "text-foreground hover:text-primary"
               }`}
             >
               {link.label}
@@ -106,19 +101,17 @@ const Navbar = () => {
               key={link.label}
               href={link.href}
               className={`text-sm font-medium transition-colors relative group ${
-                link.active ? "text-primary" : "text-foreground hover:text-primary"
+                isActive(link) ? "text-primary" : "text-foreground hover:text-primary"
               }`}
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
             </a>
           )
-        ))}
-        {/* theme toggle between links and contact */}
-        
+        )}
       </div>
 
-      {/* Right side */}
+      {/* Right side - Contact Button */}
       <div className="hidden md:flex items-center justify-center">
         <button
           type="button"
@@ -160,7 +153,7 @@ const Navbar = () => {
             transition={{ duration: 0.3 }}
             className="fixed top-0 right-0 w-3/4 h-full bg-background z-40 p-8 pt-20 flex flex-col gap-6 border-l border-border shadow-2xl"
           >
-            {navLinks.map((link, i) => (
+            {navLinks.map((link, i) =>
               link.isRoute ? (
                 <motion.div
                   key={link.label}
@@ -171,7 +164,7 @@ const Navbar = () => {
                   <Link
                     to={link.href}
                     className={`text-lg font-medium block ${
-                      link.active ? "text-primary" : "text-foreground"
+                      isActive(link) ? "text-primary" : "text-foreground"
                     }`}
                     onClick={() => setMobileOpen(false)}
                   >
@@ -186,14 +179,14 @@ const Navbar = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
                   className={`text-lg font-medium block ${
-                    link.active ? "text-primary" : "text-foreground"
+                    isActive(link) ? "text-primary" : "text-foreground"
                   }`}
                   onClick={() => setMobileOpen(false)}
                 >
                   {link.label}
                 </motion.a>
               )
-            ))}
+            )}
             <button
               type="button"
               onClick={() => setTheme(theme === "light" ? "dark" : "light")}
@@ -205,7 +198,10 @@ const Navbar = () => {
             <button
               type="button"
               className="contact-button w-full"
-              onClick={() => { setShowModal(true); setMobileOpen(false); }}
+              onClick={() => {
+                setShowModal(true);
+                setMobileOpen(false);
+              }}
             >
               <div className="fold"></div>
               <div className="points_wrapper">
@@ -231,4 +227,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

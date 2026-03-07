@@ -49,18 +49,23 @@ const Footer = () => {
           >
             <h4 className="text-foreground font-bold text-lg mb-4">Services</h4>
             <ul className="space-y-2">
-              {["Electrical Works", "Smart Metering", "Transportation", "Civil Construction"].map(
-                (item) => (
-                  <li key={item}>
-                    <a href="#services" className="text-muted-foreground text-sm hover:text-primary transition-colors">
-                      {item}
-                    </a>
-                  </li>
-                )
-              )}
+              {[
+                "Electrical Works",
+                "Transportation Services",
+                "Civil Construction",
+                "Plantation & Highway Beautification",
+                "Painting & Decoration",
+                "Warehouse Management",
+                "Manpower Supply",
+              ].map((item) => (
+                <li key={item}>
+                  <a href="#services" className="text-muted-foreground text-sm hover:text-primary transition-colors">
+                    {item}
+                  </a>
+                </li>
+              ))}
             </ul>
           </motion.div>
-
           {/* Quick Links */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -69,24 +74,22 @@ const Footer = () => {
           >
             <h4 className="text-foreground font-bold text-lg mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              {["Home", "About Us", "Services", "Career"].map((item) => (
-                <li key={item}>
-                  <a href={`#${item.toLowerCase().replace(" ", "")}`} className="text-muted-foreground text-sm hover:text-primary transition-colors">
-                    {item}
-                  </a>
-                </li>
-              ))}
-              {/* NGO link with blinking animation and route navigation */}
+              <li><a href="#home" className="text-muted-foreground text-sm hover:text-primary transition-colors">Home</a></li>
+              <li><a href="#about" className="text-muted-foreground text-sm hover:text-primary transition-colors">About Us</a></li>
+              <li><a href="#services" className="text-muted-foreground text-sm hover:text-primary transition-colors">Services</a></li>
               <li>
-                <Link
-                  to="/ngo"
-                  className="text-primary text-sm hover:text-primary transition-colors blink"
-                >
+                <Link to="/career" className="text-muted-foreground text-sm hover:text-primary transition-colors">
+                  Career
+                </Link>
+              </li>
+              <li>
+                <Link to="/ngo" className="text-primary text-sm hover:text-primary transition-colors blink">
                   NGO
                 </Link>
               </li>
             </ul>
           </motion.div>
+
 
           {/* Get in Touch */}
           <motion.div
@@ -99,7 +102,7 @@ const Footer = () => {
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                 <span className="text-muted-foreground text-sm">
-                  Ranchi, Jharkhand, India
+                  D 65/267-RA-1, Bauliya, Lahartara, Varanasi - 221002 (U.P.)
                 </span>
               </li>
               <li className="flex items-center gap-3">
