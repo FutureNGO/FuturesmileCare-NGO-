@@ -18,16 +18,29 @@ const services = [
     image: serviceElectrical,
   },
   {
+    title: "Manpower Supply",
+    description:
+      "Skilled & unskilled manpower for hotels, offices, and industries.",
+    image: Manpower,
+  },
+  {
     title: "Transportation Services",
     description:
       "Fleet operations across multiple districts.",
     image: serviceTransport,
   },
+  
   {
     title: "Civil Construction",
     description:
       "Residential, commercial, and infrastructure development.",
     image: Construction,
+  },
+   {
+    title: "Warehouse Management",
+    description:
+      "Handling, storage, and distribution solutions.",
+    image: wareHouse,
   },
   {
     title: "Plantation & Highway Beautification",
@@ -41,18 +54,7 @@ const services = [
       "Industrial, commercial, and decorative painting works.",
     image: Painting,
   },
-  {
-    title: "Warehouse Management",
-    description:
-      "Handling, storage, and distribution solutions.",
-    image: wareHouse,
-  },
-  {
-    title: "Manpower Supply",
-    description:
-      "Skilled & unskilled manpower for hotels, offices, and industries.",
-    image: Manpower,
-  },
+ 
 ];
 
 const ServicesSection = () => {

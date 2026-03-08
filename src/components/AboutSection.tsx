@@ -38,10 +38,10 @@ const AboutSection = () => {
 
       <div className="w-full md:w-7/12 text-center md:text-left relative">
     
-    <div className="absolute left-[40%] -top-4 md:-left-14  lg:top-0 md:top-4 rotate-0 md:rotate-[-90deg] text-sm tracking-widest">
+    <div className="absolute left-[40%] -top-4 md:-left-20  lg:top-0 md:top-4 rotate-0 md:rotate-[-90deg] text-sm tracking-widest">
       <div className="flex items-center justify-center gap-1">
         <div className="w-7 h-[1px] bg-white"></div>
-        <p>MORE ABOUT</p>
+        <p>Director message</p>
       </div>
     </div>
 

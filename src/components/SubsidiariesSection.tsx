@@ -16,7 +16,7 @@ const subsidiaries = [
     image: kashiInfra,
   },
   {
-    name: "MKV kashi Vishwanath",
+    name: "MK kashi Vishwanath",
     abbr: "KB",
     tag: "Heritage & Culture",
     color: "#e05c2a",

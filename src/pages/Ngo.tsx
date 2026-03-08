@@ -319,10 +319,10 @@ function Hero({ onDonateClick }: { onDonateClick: () => void }) {
               <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#34d399", display: "inline-block", animation: "ngoPulse 2s infinite" }} />
               <span style={{ color: "#34d399", fontSize: 12, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Empowering Communities</span>
             </div>
-            <h1 style={{ fontSize: "clamp(2.5rem,5vw,4.5rem)", fontWeight: 900, color: "#fff", lineHeight: 1.05, fontFamily: "'Playfair Display',serif", marginBottom: 24, animation: "ngoFadeInUp 0.9s ease 0.1s both" }}>
-              Future Smile Care<br />
-              <span style={{ color: "#34d399" }}>is the Future</span><br />
-              of <em style={{ fontStyle: "italic", color: "#6ee7b7" }}>Smart Metering</em>
+            <h1 style={{ fontSize: "clamp(2.5rem,6vw,3.5rem)", fontWeight: 900, color: "#fff", lineHeight: 1.05, fontFamily: "'Playfair Display',serif", marginBottom: 24, animation: "ngoFadeInUp 0.9s ease 0.1s both" }}>
+              Bringing smiles and<br />
+              <span style={{ color: "#34d399" }}>making a positive</span><br />
+              <em style={{ fontStyle: "italic", color: "#6ee7b7", fontSize: 35 }}>impact in communities.</em>
             </h1>
             <p style={{ color: "#9ca3af", fontSize: 17, lineHeight: 1.8, marginBottom: 40, maxWidth: 480, animation: "ngoFadeInUp 0.9s ease 0.2s both" }}>
               We are building a healthier, smarter world — one smile at a time. Join us in our mission to bring sustainable change to communities across India.
@@ -459,7 +459,15 @@ function Mission({ onDonateClick }: { onDonateClick: () => void }) {
                 <div style={{ fontSize: 48, marginBottom: 10 }}>{c.icon}</div>
                 <h3 style={{ color: "#fff", fontSize: 20, fontWeight: 800, marginBottom: 10, fontFamily: "'Playfair Display',serif" }}>{c.title}</h3>
                 <p style={{ color: "#6b7280", fontSize: 15, lineHeight: 1.8 }}>{c.desc}</p>
-                <button onClick={onDonateClick} style={{ marginTop: 10, background: "transparent", border: `1px solid #059669`, color: "#059669", padding: "10px 24px", borderRadius: 50, fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "all 0.3s" }}
+                <button onClick={() => {
+                  if (i === 0) {
+                    // Give a Donation - show donate modal
+                    onDonateClick();
+                  } else {
+                    // Become a Volunteer & Support Community Outreach - scroll to contact
+                    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                  }
+                }} style={{ marginTop: 10, background: "transparent", border: `1px solid #059669`, color: "#059669", padding: "10px 24px", borderRadius: 50, fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "all 0.3s" }}
                   onMouseEnter={(e) => { e.currentTarget.style.background = c.color; e.currentTarget.style.color = "#fff"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = c.color; }}>
                   Learn More →
@@ -789,12 +797,20 @@ function Footer({ onDonateClick }: { onDonateClick: () => void }) {
   return (
     <footer style={{ background: "#020704", borderTop: "1px solid rgba(52,211,153,0.1)", padding: "60px 24px 30px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div className="ngo-footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
+        <div className="ngo-footer-grid" style={{ display: "grid", gridTemplateColumns: "1.5fr 0.8fr 1fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
               <img src={futuresmileLogo} alt="Future Smile Care" style={{ height: 40, width: "auto" }} />
             </div>
             <p style={{ color: "#4b5563", fontSize: 14, lineHeight: 1.8, maxWidth: 280 }}>Building a better world through health, education, and community empowerment across India.</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start" }}>
+            <img src={coreMember5} alt="Pawan Kumar Singh" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%", border: "3px solid #34d399", marginBottom: 12 }} />
+            <div style={{ textAlign: "center" }}>
+              <div style={{ color: "#9ca3af", fontSize: 12, fontWeight: 600 }}>Pawan Kumar Singh</div>
+              <div style={{ color: "#6b7280", fontSize: 11 }}>Volunteer Lead</div>
+            </div>
+           
           </div>
           {cols.map((col, i) => (
             <div key={i}>
@@ -807,9 +823,8 @@ function Footer({ onDonateClick }: { onDonateClick: () => void }) {
             </div>
           ))}
         </div>
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 28, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 28, display: "flex", justifyContent: "flex-start", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
           <div style={{ color: "#374151", fontSize: 13 }}>© 2025 Future Smile Care. All rights reserved.</div>
-          {/* <div style={{ color: "#374151", fontSize: 13 }}>Made with 💚 for a better tomorrow</div> */}
         </div>
       </div>
     </footer>
@@ -819,6 +834,10 @@ function Footer({ onDonateClick }: { onDonateClick: () => void }) {
 // ── Main Export ────────────────────────────────────────────────────────────────
 export default function NGOPage() {
   const [showBankDetails, setShowBankDetails] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
