@@ -48,6 +48,19 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Handle hash navigation scrolling
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100); // Small delay to ensure page is rendered
+      }
+    }
+  }, [location]);
+
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -98,16 +111,16 @@ const Navbar = () => {
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
             </Link>
           ) : (
-            <a
+            <Link
               key={link.label}
-              href={link.href}
+              to={`/${link.href}`}
               className={`text-sm font-medium transition-colors relative group ${
                 isActive(link) ? "text-primary" : "text-foreground hover:text-primary"
               }`}
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-            </a>
+            </Link>
           )
         )}
       </div>
@@ -173,19 +186,22 @@ const Navbar = () => {
                   </Link>
                 </motion.div>
               ) : (
-                <motion.a
+                <motion.div
                   key={link.label}
-                  href={link.href}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  className={`text-lg font-medium block ${
-                    isActive(link) ? "text-primary" : "text-foreground"
-                  }`}
-                  onClick={() => setMobileOpen(false)}
                 >
-                  {link.label}
-                </motion.a>
+                  <Link
+                    to={`/${link.href}`}
+                    className={`text-lg font-medium block ${
+                      isActive(link) ? "text-primary" : "text-foreground"
+                    }`}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
               )
             )}
             <button

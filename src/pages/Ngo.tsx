@@ -233,6 +233,26 @@ function Navbar({ onDonateClick }: { onDonateClick: () => void }) {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  // Handle hash navigation scrolling
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  }, []);
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const links = ["Main Page","About", "Mission", "Programs", "Team", "Contact"];
 
   return (
@@ -258,10 +278,25 @@ function Navbar({ onDonateClick }: { onDonateClick: () => void }) {
                 onMouseEnter={(e) => (e.currentTarget.style.color = "#34d399")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "#9ca3af")}>{l}</Link>
             ) : (
-              <a key={l} href={`#${l.toLowerCase()}`}
-                style={{ color: "#9ca3af", fontSize: 13, fontWeight: 500, textDecoration: "none", letterSpacing: 0.5, transition: "color 0.2s" }}
+              <button 
+                key={l} 
+                onClick={() => scrollToSection(l.toLowerCase())}
+                style={{ 
+                  color: "#9ca3af", 
+                  fontSize: 13, 
+                  fontWeight: 500, 
+                  textDecoration: "none", 
+                  letterSpacing: 0.5, 
+                  transition: "color 0.2s",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 0
+                }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "#34d399")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#9ca3af")}>{l}</a>
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#9ca3af")}>
+                {l}
+              </button>
             )
           ))}
           <button onClick={onDonateClick}
@@ -284,8 +319,24 @@ function Navbar({ onDonateClick }: { onDonateClick: () => void }) {
               <Link key={l} to="/" onClick={() => setMenuOpen(false)}
                 style={{ display: "block", color: "#9ca3af", padding: "12px 0", fontSize: 15, textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>{l}</Link>
             ) : (
-              <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
-                style={{ display: "block", color: "#9ca3af", padding: "12px 0", fontSize: 15, textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>{l}</a>
+              <button 
+                key={l} 
+                onClick={() => { scrollToSection(l.toLowerCase()); setMenuOpen(false); }}
+                style={{ 
+                  display: "block", 
+                  color: "#9ca3af", 
+                  padding: "12px 0", 
+                  fontSize: 15, 
+                  textDecoration: "none", 
+                  borderBottom: "1px solid rgba(255,255,255,0.05)",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  width: "100%",
+                  textAlign: "left"
+                }}>
+                {l}
+              </button>
             )
           ))}
           <button onClick={onDonateClick} style={{ marginTop: 16, width: "100%", background: "linear-gradient(135deg,#34d399,#059669)", color: "#fff", border: "none", padding: "12px", borderRadius: 50, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Donate Now</button>
