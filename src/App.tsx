@@ -51,7 +51,7 @@ function MainLayout() {
   return (
     <>
       {!isNgoPage && <Navbar />}
-+      <MegaHiringModal open={showHiring} onClose={() => setShowHiring(false)} />
+      <MegaHiringModal open={showHiring} onClose={() => setShowHiring(false)} />
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/career" element={<Career />} />
