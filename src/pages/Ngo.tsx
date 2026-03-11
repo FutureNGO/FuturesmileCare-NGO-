@@ -13,6 +13,7 @@ import coreMember5 from "../assets/Coremember5.jpg";
 import coreMember6 from "../assets/Coremember6.jpg";
 import coreMember7 from "../assets/Coremember7.jpg";
 import coreMember8 from "../assets/Coremember8.jpg";
+// import Gallery from "@/components/Gallery";
 
 // ── Bank Details Modal ────────────────────────────────────────────────────────
 function BankDetailsModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
@@ -232,7 +233,7 @@ function Navbar({ onDonateClick }: { onDonateClick: () => void }) {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  const links = ["About", "Mission", "Programs", "Team", "Contact"];
+  const links = ["Main Page","About", "Mission", "Programs", "Team", "Contact"];
 
   return (
     <nav style={{
@@ -251,10 +252,17 @@ function Navbar({ onDonateClick }: { onDonateClick: () => void }) {
         {/* Desktop Links */}
         <div className="ngo-hidden-mobile" style={{ display: "flex", gap: 32, alignItems: "center" }}>
           {links.map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`}
-              style={{ color: "#9ca3af", fontSize: 13, fontWeight: 500, textDecoration: "none", letterSpacing: 0.5, transition: "color 0.2s" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#34d399")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#9ca3af")}>{l}</a>
+            l === "Main Page" ? (
+              <Link key={l} to="/"
+                style={{ color: "#9ca3af", fontSize: 13, fontWeight: 500, textDecoration: "none", letterSpacing: 0.5, transition: "color 0.2s" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#34d399")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#9ca3af")}>{l}</Link>
+            ) : (
+              <a key={l} href={`#${l.toLowerCase()}`}
+                style={{ color: "#9ca3af", fontSize: 13, fontWeight: 500, textDecoration: "none", letterSpacing: 0.5, transition: "color 0.2s" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#34d399")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#9ca3af")}>{l}</a>
+            )
           ))}
           <button onClick={onDonateClick}
             style={{ background: "linear-gradient(135deg,#34d399,#059669)", color: "#fff", border: "none", padding: "10px 22px", borderRadius: 50, fontSize: 13, fontWeight: 700, cursor: "pointer", boxShadow: "0 0 20px rgba(52,211,153,0.3)", transition: "all 0.2s" }}
@@ -272,8 +280,13 @@ function Navbar({ onDonateClick }: { onDonateClick: () => void }) {
       {menuOpen && (
         <div style={{ background: "rgba(5,10,8,0.98)", padding: "20px 24px", borderTop: "1px solid rgba(52,211,153,0.1)" }}>
           {links.map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
-              style={{ display: "block", color: "#9ca3af", padding: "12px 0", fontSize: 15, textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>{l}</a>
+            l === "Main Page" ? (
+              <Link key={l} to="/" onClick={() => setMenuOpen(false)}
+                style={{ display: "block", color: "#9ca3af", padding: "12px 0", fontSize: 15, textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>{l}</Link>
+            ) : (
+              <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
+                style={{ display: "block", color: "#9ca3af", padding: "12px 0", fontSize: 15, textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>{l}</a>
+            )
           ))}
           <button onClick={onDonateClick} style={{ marginTop: 16, width: "100%", background: "linear-gradient(135deg,#34d399,#059669)", color: "#fff", border: "none", padding: "12px", borderRadius: 50, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Donate Now</button>
         </div>
@@ -654,7 +667,7 @@ function Founder({ onDonateClick }: { onDonateClick: () => void }) {
           <Reveal direction="left">
             <div style={{ textAlign: "center" }}>
               <div style={{ width: 200, height: 200, borderRadius: "50%", background: "linear-gradient(135deg,#022c22,#065f46)", border: "3px solid rgba(52,211,153,0.3)", margin: "0 auto 24px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 70, boxShadow: "0 0 40px rgba(52,211,153,0.15)", overflow: "hidden" }}><img src={ngoFounderImg} alt="Founder" style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
-              <div style={{ color: "#fff", fontWeight: 800, fontSize: 20, fontFamily: "'Playfair Display',serif" }}>Dr. Vivek Gurav</div>
+              <div style={{ color: "#fff", fontWeight: 800, fontSize: 20, fontFamily: "'Playfair Display',serif" }}>Dr. Vivek Kumar</div>
               <div style={{ color: "#34d399", fontSize: 13, marginTop: 6, letterSpacing: 1 }}>Founder & Director</div>
             </div>
           </Reveal>
@@ -666,7 +679,7 @@ function Founder({ onDonateClick }: { onDonateClick: () => void }) {
             </Reveal>
             <Reveal direction="right" delay={200}>
               <p style={{ color: "#6b7280", fontSize: 15, lineHeight: 1.9 }}>
-                Dr. Vivek Gurav founded Future Smile Care with a strong belief that grassroots action creates lasting change. With a background in public health and community medicine, he has dedicated over a decade to serving India's most underserved populations.
+                Dr. Vivek Kumar founded Future Smile Care with a strong belief that grassroots action creates lasting change. With a background in public health and community medicine, he has dedicated over a decade to serving India's most underserved populations.
               </p>
             </Reveal>
           </div>
@@ -789,15 +802,15 @@ function Contact({ onDonateClick }: { onDonateClick: () => void }) {
 // ── Footer ─────────────────────────────────────────────────────────────────────
 function Footer({ onDonateClick }: { onDonateClick: () => void }) {
   const cols: FooterCol[] = [
-    { title: "Services", links: ["Electrical Work", "Civil Construction", "Transportation", "Highway Projects"] },
+    // { title: "Services", links: ["Electrical Work", "Civil Construction", "Transportation", "Highway Projects"] },
     { title: "Quick Links", links: ["Home", "About Us", "Programs", "Donate"] },
-    { title: "Contact", links: ["Tola Bada Koirauli, Tola Bada Koirauli, Panch Machhagar Vill: Machhagar Patti Jagdish, Hathua, Gopalganj, Bihar - 841436", "info@futuresmilecare.org", "+91 98765 43210"] },
+    { title: "Contact", links: ["Tola Bada Koirauli, Tola Bada Koirauli, Panch Machhagar Vill: Machhagar Patti Jagdish, Hathua, Gopalganj, Bihar - 841436", "Info@futuresmilecare.com", "+91 7462-032229"] },
   ];
 
   return (
     <footer style={{ background: "#020704", borderTop: "1px solid rgba(52,211,153,0.1)", padding: "60px 24px 30px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div className="ngo-footer-grid" style={{ display: "grid", gridTemplateColumns: "1.5fr 0.8fr 1fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
+        <div className="ngo-footer-grid" style={{ display: "grid", gridTemplateColumns: "1.5fr 0.8fr 1fr 1fr 1fr", gap: 50, marginBottom: 48 }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
               <img src={futuresmileLogo} alt="Future Smile Care" style={{ height: 40, width: "auto" }} />
@@ -808,7 +821,7 @@ function Footer({ onDonateClick }: { onDonateClick: () => void }) {
             <img src={coreMember5} alt="Pawan Kumar Singh" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%", border: "3px solid #34d399", marginBottom: 12 }} />
             <div style={{ textAlign: "center" }}>
               <div style={{ color: "#9ca3af", fontSize: 12, fontWeight: 600 }}>Pawan Kumar Singh</div>
-              <div style={{ color: "#6b7280", fontSize: 11 }}>Volunteer Lead</div>
+              <div style={{ color: "#6b7280", fontSize: 11 }}>CMD</div>
             </div>
            
           </div>
@@ -870,6 +883,7 @@ export default function NGOPage() {
       <About />
       <Mission onDonateClick={() => setShowBankDetails(true)} />
       <Programs />
+      {/* <Gallery /> */}
       <Founder onDonateClick={() => setShowBankDetails(true)} />
       {/* <CTABanner /> */}
       <Contact onDonateClick={() => setShowBankDetails(true)} />

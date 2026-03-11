@@ -1,0 +1,10 @@
+import { useEffect } from "react";
+import Gallery from "@/components/Gallery";
+
+export default function GalleryPage() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return <Gallery />;
+}

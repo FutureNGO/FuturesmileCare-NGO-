@@ -78,7 +78,7 @@ const DEFAULT_JOBS = [
     title: "Site Technician",
     company: "Future Smile Care",
     location: "U.P, India",
-    salary: "₹17,660",
+    salary: "₹18,660",
     type: "Full-time",
     logo: "🔧",
     category: "Technical",
