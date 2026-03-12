@@ -3,6 +3,7 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin } from "lucide-react";
 import futuresmilelogo from "@/assets/futuresmilelogo.png";
+import profilePdf from "@/assets/futuresmilecareProfile.pdf";
 
 const Footer = () => {
   const { ref, isVisible } = useScrollAnimation(0.1);
@@ -86,6 +87,16 @@ const Footer = () => {
                 <Link to="/ngo" className="text-primary text-sm hover:text-primary transition-colors blink">
                   NGO
                 </Link>
+              </li>
+              <li>
+                <a 
+                  href={profilePdf} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-muted-foreground text-sm hover:text-primary transition-colors"
+                >
+                  Our Profile
+                </a>
               </li>
             </ul>
           </motion.div>
