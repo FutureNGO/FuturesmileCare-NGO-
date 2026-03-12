@@ -869,7 +869,7 @@ function Footer({ onDonateClick }: { onDonateClick: () => void }) {
             <p style={{ color: "#4b5563", fontSize: 14, lineHeight: 1.8, maxWidth: 280 }}>Building a better world through health, education, and community empowerment across India.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start" }}>
-            <img src={coreMember5} alt="Pawan Kumar Singh" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%", border: "3px solid #34d399", marginBottom: 12 }} />
+            <img src={coreMember5} alt="Pawan Kumar Singh" style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "50%", border: "3px solid #34d399", marginBottom: 12 }} />
             <div style={{ textAlign: "center" }}>
               <div style={{ color: "#9ca3af", fontSize: 12, fontWeight: 600 }}>Pawan Kumar Singh</div>
               <div style={{ color: "#6b7280", fontSize: 11 }}>CMD</div>

@@ -69,12 +69,17 @@ const AboutSection = () => {
           >
             See Projects
           </a> */}
-          <a
-            href="#contact"
+          <button
+            onClick={() => {
+              const element = document.getElementById("contact");
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
             className="border border-tertiary text-white font-semibold py-3 px-5 rounded-lg hover:bg-tertiary/10 text-center rotate-button"
           >
             More Details
-          </a>
+          </button>
         </div>
       </div>
     </section>
