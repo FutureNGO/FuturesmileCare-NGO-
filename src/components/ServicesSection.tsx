@@ -3,11 +3,11 @@ import { motion } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import serviceElectrical from "@/assets/service-electrical.jpg";
 import serviceTransport from "@/assets/service-transport.jpg";
-import wareHouse from "@/assets/warehouse.jpg";
-import Construction from '@/assets/civil construction.jpg';
+import wareHouse from "@/assets/warehouse_services.jpeg";
+import Construction from '@/assets/Civil_services.jpeg';
 import Plantation from '@/assets/plantation.jpg';
-import Painting from '@/assets/painting.jpg';
-import Manpower from '@/assets/manpower.jpg';
+import Painting from '@/assets/paiting_services.jpeg';
+import Manpower from '@/assets/manpower_services.jpeg';
 import ServiceCarousel from "./ServiceCarousel";
 
 const services = [
