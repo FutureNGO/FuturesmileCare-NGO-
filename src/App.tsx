@@ -49,6 +49,13 @@ function MainLayout() {
     }
   }, []);
 
+  useEffect(() => {
+    // close modal when navigating to career page
+    if (location.pathname === '/career') {
+      setShowHiring(false);
+    }
+  }, [location.pathname]);
+
   return (
     <>
       {!isNgoPage && <Navbar />}

@@ -13,6 +13,35 @@ import coreMember5 from "../assets/Coremember5.jpg";
 import coreMember6 from "../assets/Coremember6.jpg";
 import coreMember7 from "../assets/Coremember7.jpg";
 import coreMember8 from "../assets/Coremember8.jpg";
+
+import serviceElectrical from "../assets/service-electrical.jpg";
+import serviceTransport from "../assets/service-transport.jpg";
+import serviceMetering from "../assets/service-metering.jpg";
+import warehouseServices from "../assets/warehouse_services.jpeg";
+import civilServices from "../assets/Civil_services.jpeg";
+import paintingServices from "../assets/paiting_services.jpeg";
+import manpowerServices from "../assets/manpower_services.jpeg";
+
+import gimage1 from "../assets/gimage1.jpeg";
+import gimage2 from "../assets/gimage2.jpeg";
+import gimage3 from "../assets/gimage3.jpeg";
+import gimage4 from "../assets/gimage4.jpeg";
+import gimage5 from "../assets/gimage5.jpeg";
+import gimage6 from "../assets/gimage6.jpeg";
+import gimage7 from "../assets/gimage7.jpeg";
+import gimage8 from "../assets/gimage8.jpeg";
+import gimage9 from "../assets/gimage9.jpeg";
+import gimage10 from "../assets/gimage10.jpeg";
+import gimage11 from "../assets/gimage11.jpeg";
+import gimage12 from "../assets/gimage12.jpeg";
+
+import cleanWaterImg from "../assets/Clean_water.jpg";
+import educateImg from "../assets/educating_students.jpg";
+import wellnessImg from "../assets/Health_and_Wellness.jpg";
+import environmentImg from "../assets/Environmental_Care.jpg";
+import medicalAidImg from "../assets/Medical_Aid.jpg";
+import womenEmpowerImg from "../assets/Women_Empowerment.jpg";
+
 // import Gallery from "@/components/Gallery";
 
 // ── Bank Details Modal ────────────────────────────────────────────────────────
@@ -112,6 +141,16 @@ interface Program {
   desc: string;
   tag: string;
   color: string;
+  image: string;
+}
+
+interface GalleryImage {
+  id: number;
+  src: string;
+  alt: string;
+  className: string;
+  animateFrom: string;
+  delay: number;
 }
 
 interface Member {
@@ -253,7 +292,7 @@ function Navbar({ onDonateClick }: { onDonateClick: () => void }) {
     }
   };
 
-  const links = ["Main Page","About", "Mission", "Programs", "Team", "Contact"];
+  const links = ["Main Page","About", "Mission", "Gallery", "Programs", "Team", "Contact"];
 
   return (
     <nav style={{
@@ -397,11 +436,11 @@ function Hero({ onDonateClick }: { onDonateClick: () => void }) {
                 onMouseLeave={(e) => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "0 0 30px rgba(52,211,153,0.35)"; }}>
                 🤝 Join Our Mission
               </button>
-              <button style={{ background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,0.2)", padding: "16px 36px", borderRadius: 50, fontSize: 15, fontWeight: 600, cursor: "pointer", transition: "all 0.3s" }}
+              {/* <button style={{ background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,0.2)", padding: "16px 36px", borderRadius: 50, fontSize: 15, fontWeight: 600, cursor: "pointer", transition: "all 0.3s" }}
                 onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#34d399"; e.currentTarget.style.color = "#34d399"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; e.currentTarget.style.color = "#fff"; }}>
                 ▶ Watch Story
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -505,7 +544,7 @@ function Mission({ onDonateClick }: { onDonateClick: () => void }) {
   ];
 
   return (
-    <section id="mission" style={{ background: "#030806", padding: "120px 24px" }}>
+    <section id="mission" style={{  padding: "120px 24px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 10 }}>
@@ -545,15 +584,207 @@ function Mission({ onDonateClick }: { onDonateClick: () => void }) {
   );
 }
 
+const galleryImages: GalleryImage[] = [
+  {
+    id: 1,
+    src: gimage1,
+    alt: "Gallery Image 1",
+    className: "col-start-1 col-span-2 row-start-1 row-span-2",
+    animateFrom: "-translate-x-full -translate-y-full",
+    delay: 200,
+  },
+  {
+    id: 2,
+    src: gimage2,
+    alt: "Gallery Image 2",
+    className: "col-start-3 col-span-4 row-start-1 row-span-3",
+    animateFrom: "-translate-y-full",
+    delay: 0,
+  },
+  {
+    id: 3,
+    src: gimage3,
+    alt: "Gallery Image 3",
+    className: "col-start-7 col-span-2 row-start-1 row-span-2",
+    animateFrom: "translate-x-full -translate-y-full",
+    delay: 200,
+  },
+  {
+    id: 4,
+    src: gimage4,
+    alt: "Gallery Image 4",
+    className: "col-start-1 col-span-2 row-start-3 row-span-2",
+    animateFrom: "-translate-x-full",
+    delay: 400,
+  },
+  {
+    id: 5,
+    src: gimage5,
+    alt: "Gallery Image 5",
+    className: "col-start-3 col-span-2 row-start-4 row-span-2",
+    animateFrom: "translate-y-full",
+    delay: 500,
+  },
+  {
+    id: 6,
+    src: gimage6,
+    alt: "Gallery Image 6",
+    className: "col-start-5 col-span-2 row-start-4 row-span-2",
+    animateFrom: "translate-y-full",
+    delay: 600,
+  },
+  {
+    id: 7,
+    src: gimage7,
+    alt: "Gallery Image 7",
+    className: "col-start-7 col-span-2 row-start-3 row-span-2",
+    animateFrom: "translate-x-full",
+    delay: 400,
+  },
+  {
+    id: 8,
+    src: gimage8,
+    alt: "Gallery Image 8",
+    className: "col-start-7 col-span-2 row-start-5 row-span-2",
+    animateFrom: "translate-x-full translate-y-full",
+    delay: 700,
+  },
+  {
+    id: 9,
+    src: gimage9,
+    alt: "Gallery Image 9",
+    className: "col-start-1 col-span-2 row-start-5 row-span-2",
+    animateFrom: "-translate-x-full translate-y-full",
+    delay: 800,
+  },
+  {
+    id: 10,
+    src: gimage10,
+    alt: "Gallery Image 10",
+    className: "col-start-3 col-span-2 row-start-6 row-span-1",
+    animateFrom: "translate-y-full",
+    delay: 900,
+  },
+  {
+    id: 11,
+    src: gimage11,
+    alt: "Gallery Image 11",
+    className: "col-start-5 col-span-2 row-start-6 row-span-1",
+    animateFrom: "translate-y-full",
+    delay: 1000,
+  },
+  {
+    id: 12,
+    src: gimage12,
+    alt: "Gallery Image 12",
+    className: "col-start-7 col-span-2 row-start-6 row-span-1",
+    animateFrom: "translate-x-full translate-y-full",
+    delay: 1100,
+  },
+];
+
+function GallerySection() {
+  const [inView, setInView] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section
+      id="gallery"
+      ref={sectionRef}
+      className="relative w-full min-h-screen  overflow-hidden flex flex-col items-center justify-center py-16 px-4"
+    >
+      {/* Header */}
+      <div
+        className={`text-center mb-5 transition-all duration-700 ease-out ${
+          inView ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-8"
+        }`}
+      >
+        <p className="text-[#059669] tracking-[0.4em] text-xs uppercase font-semibold mb-3">
+          Our Gallary
+        </p>
+        <h2 className="text-white text-4xl md:text-5xl font-bold tracking-tight leading-tight">
+          The Smiles We've Created
+        </h2>
+      </div>
+
+      {/* Grid Gallery */}
+      <div
+        className="relative w-full max-w-5xl mx-auto"
+        style={{ height: "800px" }}
+      >
+        {/* Grid container */}
+        <div
+          className="absolute inset-0 grid gap-2"
+          style={{
+            gridTemplateColumns: "repeat(8, 1fr)",
+            gridTemplateRows: "repeat(6, 1fr)",
+          }}
+        >
+          {galleryImages.map((img) => (
+            <div
+              key={img.id}
+              className={`
+                relative overflow-hidden rounded-sm
+                ${img.className}
+                transition-all ease-out
+                ${inView ? "opacity-100 translate-x-0 translate-y-0" : `opacity-0 ${img.animateFrom}`}
+              `}
+              style={{
+                transitionDuration: "800ms",
+                transitionDelay: `${img.delay}ms`,
+              }}
+            >
+              <img
+                src={img.src}
+                alt={img.alt}
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                style={{ animation: "slowPan 25s ease-in-out infinite" }}
+                loading="lazy"
+              />
+              {/* Subtle dark overlay on hover */}
+              <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors duration-300" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Footer CTA */}
+      {/* <div
+        className={`mt-12 transition-all duration-700 ease-out delay-700 ${
+          inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+      >
+        <button className="border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black px-8 py-3 text-sm tracking-widest uppercase font-semibold transition-all duration-300">
+          View Full Gallery
+        </button>
+      </div> */}
+    </section>
+  );
+}
+
 // ── Programs Carousel ──────────────────────────────────────────────────────────
 function Programs() {
   const programs: Program[] = [
-    { icon: "🩺", title: "Providing Clean Water", desc: "Implementing water purification and distribution systems in rural areas lacking access to clean drinking water.", tag: "Health", color: "#059669" },
-    { icon: "📚", title: "Educating Children", desc: "Supporting underprivileged children with scholarships, school supplies, and after-school tutoring programs.", tag: "Education", color: "#0891b2" },
-    { icon: "🧘", title: "Health and Wellness", desc: "Organizing medical camps, mental health workshops, and yoga sessions to promote holistic community wellness.", tag: "Wellness", color: "#7c3aed" },
-    { icon: "🌱", title: "Environmental Care", desc: "Tree plantation drives, waste management awareness and training rural communities in sustainable living practices.", tag: "Environment", color: "#65a30d" },
-    { icon: "💊", title: "Medical Aid", desc: "Free medicine distribution and specialist consultations for families unable to afford quality healthcare.", tag: "Health", color: "#059669" },
-    { icon: "👩‍💼", title: "Women Empowerment", desc: "Skill development, self-help groups and entrepreneurship training for women across semi-urban communities.", tag: "Empowerment", color: "#db2777" },
+    { icon: "🩺", title: "Providing Clean Water", desc: "Implementing water purification and distribution systems in rural areas lacking access to clean drinking water.", tag: "Health", color: "#059669", image: cleanWaterImg },
+    { icon: "📚", title: "Educating Children", desc: "Supporting underprivileged children with scholarships, school supplies, and after-school tutoring programs.", tag: "Education", color: "#0891b2", image: educateImg },
+    { icon: "🧘", title: "Health and Wellness", desc: "Organizing medical camps, mental health workshops, and yoga sessions to promote holistic community wellness.", tag: "Wellness", color: "#7c3aed", image: wellnessImg },
+    { icon: "🌱", title: "Environmental Care", desc: "Tree plantation drives, waste management awareness and training rural communities in sustainable living practices.", tag: "Environment", color: "#65a30d", image: environmentImg },
+    { icon: "💊", title: "Medical Aid", desc: "Free medicine distribution and specialist consultations for families unable to afford quality healthcare.", tag: "Health", color: "#059669", image: medicalAidImg },
+    { icon: "👩‍💼", title: "Women Empowerment", desc: "Skill development, self-help groups and entrepreneurship training for women across semi-urban communities.", tag: "Empowerment", color: "#db2777", image: womenEmpowerImg },
   ];
 
   const [visible, setVisible] = useState(3);
@@ -591,14 +822,14 @@ function Programs() {
                 transform: `translateX(calc(-${current * (100 / visible)}% - ${current * 24 / visible}px))`
               }}>
                 {programs.map((p, i) => (
-                  <div key={i} style={{ minWidth: `calc(${100 / visible}% - ${(visible - 1) * 24 / visible}px)`, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 20, padding: 36, position: "relative", transition: "border-color 0.3s,box-shadow 0.3s", flexShrink: 0 }}
+                  <div key={i} style={{ width: `calc(${100 / visible}% - ${(visible - 1) * 24 / visible}px)`, aspectRatio: 1, boxSizing: "border-box", backgroundImage: `url(${p.image})`, backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundColor: "rgba(0,0,0,0.55)", backgroundBlendMode: "overlay", backdropFilter: "blur(14px)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 20, padding: 24, position: "relative", transition: "border-color 0.3s,box-shadow 0.3s", flexShrink: 0, display: 'flex', flexDirection: 'column' }}
                     onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${p.color}60`; e.currentTarget.style.boxShadow = `0 12px 40px ${p.color}18`; }}
                     onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; e.currentTarget.style.boxShadow = "none"; }}>
                     <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg,${p.color},transparent)`, borderRadius: "20px 20px 0 0" }} />
                     <span style={{ background: `${p.color}20`, color: p.color, fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", padding: "4px 12px", borderRadius: 50, border: `1px solid ${p.color}40` }}>{p.tag}</span>
                     <div style={{ fontSize: 44, margin: "20px 0 16px" }}>{p.icon}</div>
                     <h3 style={{ color: "#f9fafb", fontSize: 18, fontWeight: 800, marginBottom: 12 }}>{p.title}</h3>
-                    <p style={{ color: "#6b7280", fontSize: 14, lineHeight: 1.85 }}>{p.desc}</p>
+                    <p style={{ color: "#d1d5db", fontSize: 14, lineHeight: 1.85 }}>{p.desc}</p>
                   </div>
                 ))}
               </div>
@@ -718,7 +949,7 @@ function Founder({ onDonateClick }: { onDonateClick: () => void }) {
           <Reveal direction="left">
             <div style={{ textAlign: "center" }}>
               <div style={{ width: 200, height: 200, borderRadius: "50%", background: "linear-gradient(135deg,#022c22,#065f46)", border: "3px solid rgba(52,211,153,0.3)", margin: "0 auto 24px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 70, boxShadow: "0 0 40px rgba(52,211,153,0.15)", overflow: "hidden" }}><img src={ngoFounderImg} alt="Founder" style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
-              <div style={{ color: "#fff", fontWeight: 800, fontSize: 20, fontFamily: "'Playfair Display',serif" }}>Dr. Vivek Kumar</div>
+              <div style={{ color: "#fff", fontWeight: 800, fontSize: 20, fontFamily: "'Playfair Display',serif" }}>Dr. Vivek Singh</div>
               <div style={{ color: "#34d399", fontSize: 13, marginTop: 6, letterSpacing: 1 }}>Founder & Director</div>
             </div>
           </Reveal>
@@ -730,7 +961,7 @@ function Founder({ onDonateClick }: { onDonateClick: () => void }) {
             </Reveal>
             <Reveal direction="right" delay={200}>
               <p style={{ color: "#6b7280", fontSize: 15, lineHeight: 1.9 }}>
-                Dr. Vivek Kumar founded Future Smile Care with a strong belief that grassroots action creates lasting change. With a background in public health and community medicine, he has dedicated over a decade to serving India's most underserved populations.
+                Dr. Vivek Singh founded Future Smile Care with a strong belief that grassroots action creates lasting change. With a background in public health and community medicine, he has dedicated over a decade to serving India's most underserved populations.
               </p>
             </Reveal>
           </div>
@@ -915,6 +1146,7 @@ export default function NGOPage() {
         @keyframes ngoFadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
         @keyframes ngoFadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: none; } }
         @keyframes ngoFadeInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
+        @keyframes slowPan { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(5%, 5%); } }
         input::placeholder, textarea::placeholder { color: #4b5563; }
         @media (max-width: 768px) {
           .ngo-hero-grid, .ngo-two-col { grid-template-columns: 1fr !important; gap: 40px !important; }
@@ -933,6 +1165,7 @@ export default function NGOPage() {
       <StatsBar />
       <About />
       <Mission onDonateClick={() => setShowBankDetails(true)} />
+      <GallerySection />
       <Programs />
       {/* <Gallery /> */}
       <Founder onDonateClick={() => setShowBankDetails(true)} />
